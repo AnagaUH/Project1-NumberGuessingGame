@@ -16,7 +16,7 @@ public class NumberGame {
         if (username.trim().isEmpty()) {
             username = "'No Name'";
         }
-        System.out.println("Hello " + username + "!\n" + """
+        System.out.println("\nHello " + username + "!" + """
 
                 Please choose an option by entering its corresponding number.
                 
@@ -54,59 +54,50 @@ public class NumberGame {
     static void GuessingGame(String name) { // Recursive guessing game
         Scanner scanner = new Scanner(System.in);
         Random random = new Random();
-        boolean playing = true;
-        boolean guessing;
-        int target;
-        int guesses;
         int userGuess;
         int choice;
+        int target = random.nextInt(100) + 1;
+        boolean guessing = true;
+        int guesses = 0;
 
-        while (playing) { // Loop game
-            target = random.nextInt(100) + 1;
-            guessing = true;
-            guesses = 0;
+        System.out.println("\nThe number guessing game will start!");
+        System.out.println("""
+                \nInstructions:
+                Enter a number between 1 and 100, then I will tell you whether the number I'm thinking of is 'Higher' or 'Lower' than your guess.
+                Guess the number in the least amount of tries.
+                Enter -1 to exit.
 
-            System.out.println("\nThe number guessing game will start!");
-            System.out.println("""
-                    \nInstructions:
-                    Enter a number between 1 and 100, then I will tell you whether the number I'm thinking of is 'Higher' or 'Lower' than your guess.
-                    Guess the number in the least amount of tries.
-                    Enter -1 to exit.
+                Enter a number:\s""");
 
-                    Enter a number:\s""");
-
-            while (guessing) { // Loop guessing
-                userGuess = Integer.parseInt(scanner.nextLine());
-                guesses++;
-                if (userGuess == -1) { // Quit
-                    System.out.println("\nQuitting Game...");
-                    guesses = -1;
-                    guessing = false;
-                    playing = false;
-                } else if (userGuess > 100 || userGuess < 1) { // Handle out of bounds
-                    System.out.println("Please enter a number 1-100:\n");
-                } else if (userGuess == target) { // Player wins
-                    System.out.println("\nYou got it in '" + guesses + "' guesses!");
-                    addNewScore(name, guesses);
-                    printScores(3);
-                    guessing = false;
-                    System.out.println("""
-                            \nWould you like to play again?
-                            1. Yes
-                            2. No""");
-                    Scanner restart = new Scanner(System.in);
-                    choice = Integer.parseInt(restart.nextLine());
-
-                    if (choice != 1) {
-                        playing = false;
-                    }
-                } else if (userGuess < target) {
-                    System.out.println("\nHigher");
-                    System.out.println("Enter a number: ");
-                } else {
-                    System.out.println("\nLower");
-                    System.out.println("Enter a number: ");
+        while (guessing) { // Loop guessing
+            userGuess = Integer.parseInt(scanner.nextLine());
+            guesses++;
+            if (userGuess == -1) { // Quit
+                System.out.println("\nQuitting Game...");
+                guesses = -1;
+                guessing = false;
+            } else if (userGuess > 100 || userGuess < 1) { // Handle out of bounds
+                System.out.println("Please enter a number 1-100:\n");
+            } else if (userGuess == target) { // Player wins
+                System.out.println("\nYou got it in '" + guesses + "' guesses!");
+                addNewScore(name, guesses);
+                printScores(3);
+                guessing = false;
+                System.out.println("""
+                        \nWould you like to play again?
+                        1. Yes
+                        2. No""");
+                Scanner restart = new Scanner(System.in);
+                choice = Integer.parseInt(restart.nextLine());
+                if (choice == 1) { // Recursion
+                    GuessingGame(name);
                 }
+            } else if (userGuess < target) {
+                System.out.println("\nHigher");
+                System.out.println("Enter a number: ");
+            } else {
+                System.out.println("\nLower");
+                System.out.println("Enter a number: ");
             }
         }
     }
