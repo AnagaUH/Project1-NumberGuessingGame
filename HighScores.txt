@@ -1,0 +1,9 @@
+John,6
+John,9
+John,6
+John,7
+Alfred,5
+Eduardo,8
+Wendy,8
+Wendy,4
+'No Name',6
